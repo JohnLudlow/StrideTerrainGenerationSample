@@ -30,4 +30,4 @@ jobs:
       run: dotnet test --no-build --verbosity normal
 
     - name: Benchmark
-      run: dotnet run --project benchmarks/StrideTerrainGeneration.Benchmarks/StrideTerrainGeneration.Benchmarks.csproj --no-build --verbosity normal --configuration Release
+      run: dotnet run --project benchmarks/StrideTerrainGeneration.Benchmarks/StrideTerrainGeneration.Benchmarks.csproj --verbosity normal --configuration Release
