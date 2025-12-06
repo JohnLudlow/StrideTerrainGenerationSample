@@ -1,0 +1,18 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/tests/" />
+  <Folder Name="/benchmarks/" />
+  <Folder Name="/samples/" />
+  <Project Path="src\StrideTerrainGeneration.Core\StrideTerrainGeneration.Core.csproj" Type="Classic C#" />
+  <Project Path="tests\StrideTerrainGeneration.Tests\StrideTerrainGeneration.Tests.csproj" Type="Classic C#" />
+  <Project Path="benchmarks\StrideTerrainGeneration.Benchmarks\StrideTerrainGeneration.Benchmarks.csproj" Type="Classic C#" />
+  <Project Path="samples\StrideTerrainGeneration.Sample\StrideTerrainGeneration.Sample.csproj" Type="Classic C#" />
+  <Properties Name="Configuration">
+    <Property Name="Debug|Any CPU" />
+    <Property Name="Debug|x64" />
+    <Property Name="Debug|x86" />
+    <Property Name="Release|Any CPU" />
+    <Property Name="Release|x64" />
+    <Property Name="Release|x86" />
+  </Properties>
+</Solution>
