@@ -7,7 +7,7 @@ on: [push]
 
 jobs:
   build:    
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     env:
       CONFIGURATION: Release
 
@@ -25,6 +25,7 @@ jobs:
       run: dotnet restore
 
     - name: Build
+      shell: pwsh
       run: |
         $dotnetParams = @(
           "--no-restore",
@@ -35,6 +36,7 @@ jobs:
         dotnet build @dotnetParams
 
     - name: Test
+      shell: pwsh
       run: |
         $dotnetParams = @(
           "--no-build",
@@ -63,18 +65,19 @@ jobs:
       uses: marocchino/sticky-pull-request-comment@v2
       if: github.event_name == 'pull_request'
       with:
-        recreate: true
+        recreate: true              
         path: code-coverage-results.md
 
     - name: Test Report
       uses: dorny/test-reporter@v2
       if: ${{ !cancelled() }}       # run this step even if previous step failed
       with:
-        name: JEST Tests            # Name of the check run which will be created
-        path: TestResults/**/*
+        name: Unit Tests            # Name of the check run which will be created
+        path: TestResults/**/*.trx        
         reporter: dotnet-trx        # Format of test results
 
     - name: Benchmark
+      shell: pwsh
       run: |
         $dotnetParams = @(
           "--no-build",
