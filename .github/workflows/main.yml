@@ -29,7 +29,7 @@ jobs:
         $dotnetParams = @(
           "--no-restore",
           "/m:1",
-          "--configuration", "${CONFIGURATION}"
+          "--configuration", "$CONFIGURATION"
         )
 
         dotnet build @dotnetParams
@@ -38,7 +38,7 @@ jobs:
       run: |
         $dotnetParams = @(
           "--no-build",
-          "--configuration", "${CONFIGURATION}",
+          "--configuration", "$CONFIGURATION",
           "--verbosity", "normal",
           "--collect:XPlat Code Coverage",
           "--results-directory", "TestResults"
@@ -78,7 +78,7 @@ jobs:
       run: |
         $dotnetParams = @(
           "--no-build",
-          "--configuration", "${CONFIGURATION}",
+          "--configuration", "$CONFIGURATION",
           "--project", "benchmarks/StrideTerrainGeneration.Benchmarks/StrideTerrainGeneration.Benchmarks.csproj",
           "--filter", "*",
           "--verbosity", "normal"
