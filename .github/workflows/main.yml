@@ -6,9 +6,10 @@ name: Build and Test
 on: [push]
 
 jobs:
-  build:
-
+  build:    
     runs-on: windows-latest
+    env:
+      CONFIGURATION: Release
 
     steps:
     - uses: actions/checkout@v5
@@ -24,10 +25,26 @@ jobs:
       run: dotnet restore
 
     - name: Build
-      run: dotnet build --no-restore /m:1
+      run: |
+        $dotnetParams = @(
+          "--no-restore",
+          "/m:1",
+          "--configuration", "${CONFIGURATION}"
+        )
+
+        dotnet build @dotnetParams
 
     - name: Test
-      run: dotnet test --no-build --verbosity normal --configuration Release --collect:"XPlat Code Coverage" --results-directory TestResults
+      run: |
+        $dotnetParams = @(
+          "--no-build",
+          "--configuration", "${CONFIGURATION}",
+          "--verbosity", "normal",
+          "--collect:XPlat Code Coverage",
+          "--results-directory", "TestResults"
+        )
+
+        dotnet test @dotnetParams
 
     - name: Code Coverage Report
       uses: irongut/CodeCoverageSummary@v1.3.0
@@ -58,4 +75,12 @@ jobs:
         reporter: dotnet-trx        # Format of test results
 
     - name: Benchmark
-      run: dotnet run --project benchmarks/StrideTerrainGeneration.Benchmarks/StrideTerrainGeneration.Benchmarks.csproj --filter * --verbosity normal --configuration Release
+      run: |
+        $dotnetParams = @(
+          "--no-build",
+          "--configuration", "${CONFIGURATION}",
+          "--project", "benchmarks/StrideTerrainGeneration.Benchmarks/StrideTerrainGeneration.Benchmarks.csproj",
+          "--filter", "*",
+          "--verbosity", "normal"
+        )
+        dotnet run @dotnetParams
