@@ -28,7 +28,8 @@ jobs:
         $rev = "$env:REV_PREFIX.$($date.ToString('yyyyMMdd')).$rev_suffix"
 
         write-host "Revision: $rev"
-        "REV=$rev" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "AssemblyVersion=$env:REV_PREFIX" >> $GITHUB_ENV
+        "AssemblyFileVersion=$rev"        >> $GITHUB_ENV
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -75,7 +76,7 @@ jobs:
 
     - name: ReportGenerator
       uses: danielpalme/ReportGenerator-GitHub-Action@5.5.1
-      with:
+      with:        
         reports: '**/coverage.cobertura.xml'
         targetdir: 'coverage'
         reporttypes: 'MarkdownSummaryGithub;MarkdownDeltaSummary'
