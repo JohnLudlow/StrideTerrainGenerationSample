@@ -10,12 +10,28 @@ jobs:
     runs-on: windows-latest
     env:
       CONFIGURATION: Release
+      REV_PREFIX: 1.0
 
     steps:
+    - name: Generate Workfloew revsion
+      shell: pwsh
+      id: get_buildrev
+      run: |
+        # Count the runs for the current workflow that were queued today
+        $date = get-date 
+        
+        $rev_suffix=$(gh run list --limit 100 --workflow '${{ github.workflow }}' --json createdAt |  jq -r --arg DATE "$($date.ToString('yyyy-MM-d'))" '[.[] | select(.createdAt | startswith($DATE))] | length ')
+        $rev = "$env:REV_PREFIX.$($date.ToString('yyyyMMdd')).$rev_suffix"
+
+        write-host "Revision: $rev"
+        "REV=$rev" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     - uses: actions/checkout@v5
       with:
-        lfs: true
-      
+        lfs: true        
+        
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
@@ -81,6 +97,7 @@ jobs:
       run: cat coverage/SummaryGithub.md >> $env:GITHUB_STEP_SUMMARY # Adjust path and filename if necessary
 
     - name: Benchmark
+      if: github.event_name == 'pull_request'
       shell: pwsh
       run: |
         $dotnetParams = @(
