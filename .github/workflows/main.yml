@@ -43,6 +43,7 @@ jobs:
           "--configuration", "$env:CONFIGURATION",
           "--verbosity", "normal",
           "--collect:XPlat Code Coverage",
+          "--logger", "trx",
           "--results-directory", "TestResults"
         )
 
