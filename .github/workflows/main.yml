@@ -28,8 +28,8 @@ jobs:
         $rev = "$env:REV_PREFIX.$($date.ToString('yyyyMMdd')).$rev_suffix"
 
         write-host "Revision: $rev"
-        "AssemblyVersion=$env:REV_PREFIX" >> $GITHUB_ENV
-        "AssemblyFileVersion=$rev"        >> $GITHUB_ENV
+        "AssemblyVersion=$env:REV_PREFIX" >> $env:GITHUB_ENV
+        "AssemblyFileVersion=$rev"        >> $env:GITHUB_ENV
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
